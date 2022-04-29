@@ -1,7 +1,9 @@
 const express=require('express');
 
+const secure=require('./secure');
 const response=require('../../../network/response');
-const Controller=require('./index')
+const Controller=require('./index');
+
 
 const router=express.Router();
 const httpStatus = require("http-status-codes").StatusCodes;
@@ -9,7 +11,8 @@ const httpStatus = require("http-status-codes").StatusCodes;
 router.get('/',list);
 router.get('/:id',get);
 router.post('/',upsert);
-router.put('/:id',remove);
+router.put('/:id',secure('update'),upsert);
+router.delete('/:id',remove);
 
 function list(req,res){
     Controller.list()
