@@ -29,7 +29,7 @@ module.exports=function(injectedStore){
         if(data.password || data.username){
             await auth.upsert({
                 id: user.id,
-                username: user.name,
+                username: user.username,
                 password: data.password,
             })
         }
