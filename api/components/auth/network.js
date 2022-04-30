@@ -8,13 +8,14 @@ const httpStatus = require("http-status-codes").StatusCodes;
 
 router.post('/login',login);
 
-function login(req,res) {
+function login(req,res,next) {
     Controller.login(req.body.username,req.body.password)
         .then(token=>{
             response.success(req,res,token,httpStatus.OK);
         })
         .catch(e=>{
-            response.error(req,res,'Informacion invalida',httpStatus.NOT_FOUND);
+            throw error('Informacion invalida',httpStatus.NOT_FOUND);
+          //  response.error(req,res,'Informacion invalida',httpStatus.NOT_FOUND);
         });
 }
 
