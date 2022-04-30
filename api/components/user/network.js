@@ -9,6 +9,7 @@ const router=express.Router();
 const httpStatus = require("http-status-codes").StatusCodes;
 
 router.get('/',list);
+router.get('/follow/:id',secure('follow'),follow);
 router.get('/:id',get);
 router.post('/',upsert);
 router.put('/:id',secure('update'),upsert);
@@ -43,4 +44,10 @@ function remove(req,res,next){
         }).catch(next);
 };
 
+function follow(req,res,next) {
+    Controller.follow(req.user.id,req.params.id)
+        .then(data=>{
+            response.success(req,res,data,201);
+        }).catch(next);
+    }
 module.exports=router;

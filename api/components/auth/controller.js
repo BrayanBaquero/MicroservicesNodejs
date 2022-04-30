@@ -1,5 +1,6 @@
 const bcrypt=require('bcrypt');
 const auth=require('../../../auth');
+const error=require('../../../utils/error');
 const TABLA='auth';
 module.exports=function(injectedStore){
     let store=injectedStore;
