@@ -19,7 +19,7 @@ const check={
             throw error('No puedes hacer esto',401);
         }
     },
-    logged: function(req,owner) {
+    logged: function(req) {
         const decoded=decodeHeader(req);
     },
 }

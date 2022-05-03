@@ -65,15 +65,16 @@ function insert(table,data) {
     })
 }
 
-function upsert(table,data) {
+/*function upsert(table,data) {
+    console.log(data);
     if(data && data.id){
         return update(table,data);
     }else{
         return insert(table,data);
     } 
-}
+}*/
 
-/*const upsert = async (table, payload) => new Promise((resolve, reject) => {
+const upsert = async (table, payload) => new Promise((resolve, reject) => {
     connection.query(`INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ?`, [payload, payload], (error, data) => {
       console.log('UPDATE DATA: ', data)
       if (error) {
@@ -81,7 +82,7 @@ function upsert(table,data) {
       }
       resolve(data)
     })
-  })*/
+  })
 
 
 function update(table,data) {
@@ -93,18 +94,34 @@ function update(table,data) {
     })
 }
 
-function query(table,query) {
-    return new Promise((resolve,reject)=>{
-        connection.query(`SELECT * FROM ${table} WHERE ?`,query,(err,res)=>{
-            if(err) return reject(err);
-            resolve(res[0] || null);
+function query(table, query, join) {
+    let joinQuery = '';
+    if (join) {
+        const key = Object.keys(join)[0];
+        const val = join[key];
+        joinQuery = `JOIN ${key} ON ${table}.${val} = ${key}.id`;
+    }
+
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ${table}.?`, query, (err, res) => {
+            if (err) return reject(err);
+            resolve(res || null);
         })
     })
 }
 
+function remove(table,id) {
+    return new Promise((resolve,reject)=>{
+        connection.query( `DELETE FROM ${table} WHERE id=?`,id,(err,result)=>{
+            if(err) return reject(err);
+            resolve(result);
+        })
+    })
+}
 module.exports={
     list,
     get,
     upsert,
-    query
+    query,
+    remove,
 };

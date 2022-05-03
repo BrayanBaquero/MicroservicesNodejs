@@ -14,10 +14,10 @@ function login(req,res,next) {
         .then(token=>{
             response.success(req,res,token,httpStatus.OK);
         })
-        .catch(e=>{
-            throw error('Informacion invalida',httpStatus.NOT_FOUND);
+        .catch(next
+           //throw error('Informacion invalida',httpStatus.NOT_FOUND);
           //  response.error(req,res,'Informacion invalida',httpStatus.NOT_FOUND);
-        });
+        );
 }
 
 

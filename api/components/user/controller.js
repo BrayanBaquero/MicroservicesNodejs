@@ -22,15 +22,15 @@ module.exports=function(injectedStore){
     async function upsert(data) {
         const user={
             id :data.id?data.id:nanoid(),
-            name:data.name,
-            username: data.username,
+            name:data.body.name,
+            username: data.body.username,
         }
 
         if(data.password || data.username){
             await auth.upsert({
                 id: user.id,
                 username: user.username,
-                password: data.password,
+                password: data.body.password,
             })
         }
         return store.upsert(TABLA,user);
@@ -46,12 +46,21 @@ module.exports=function(injectedStore){
             user_to:to,
         })
     }
+
+    async function following(user) {
+        const join = {}
+        join[TABLA] = 'user_to'; // { user: 'user_to' }
+        const query = { user_from: user };
+		
+		return await store.query(TABLA + '_follow', query, join);
+	}
     return{
         list,
         get,
         upsert,
         remove,
         follow,
+        following,
     }
 }
 

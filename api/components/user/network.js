@@ -10,6 +10,7 @@ const httpStatus = require("http-status-codes").StatusCodes;
 
 router.get('/',list);
 router.get('/follow/:id',secure('follow'),follow);
+router.get('/:id/following', following);
 router.get('/:id',get);
 router.post('/',upsert);
 router.put('/:id',secure('update'),upsert);
@@ -31,7 +32,7 @@ function get(req,res,next){
 };
 
 function upsert(req,res,next){
-    Controller.upsert(req.body)
+    Controller.upsert(req)
         .then((user)=>{
             response.success(req,res,user,httpStatus.CREATED);
         }).catch(next);
@@ -49,5 +50,12 @@ function follow(req,res,next) {
         .then(data=>{
             response.success(req,res,data,201);
         }).catch(next);
+    }
+function following(req, res, next) {
+        return Controller.following(req.params.id)
+            .then( (data) => {
+                return response.success(req, res, data, 200);
+            })
+            .catch(next);
     }
 module.exports=router;
