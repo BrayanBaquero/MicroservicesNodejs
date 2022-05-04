@@ -26,6 +26,8 @@ CREATE TABLE post(
 
 INSERT INTO post (id,`text`,`user`) VALUES ('999','Mi primer post', '123');
 
+delete from post;
+
 select * from auth;
-select * from 'user';
+select * from `user`;
 select * from user_follow;
