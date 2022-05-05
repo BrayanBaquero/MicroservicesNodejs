@@ -26,7 +26,7 @@ CREATE TABLE post(
 
 INSERT INTO post (id,`text`,`user`) VALUES ('999','Mi primer post', '123');
 
-delete from post;
+delete from user;
 
 select * from auth;
 select * from `user`;

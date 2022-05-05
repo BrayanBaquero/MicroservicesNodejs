@@ -7,6 +7,11 @@
     "mon": "nodemon api/index.js",
     "mysql": "nodemon mysql/index.js",
     "post": "nodemon posts/index.js",
+    "pmapi":"pm2 start api/index.js --name api-principal",
+    "pmmysql": "pm2 start mysql/index.js --name api-mysql",
+    "pmpost": "pm2  start posts/index.js --name api-post",
+    "pmlogs": "pm2 logs",
+    "all":"pm2 start ecosystem.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
