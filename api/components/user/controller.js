@@ -21,12 +21,12 @@ module.exports=function(injectedStore){
 
     async function upsert(data) {
         const user={
-            id :data.id?data.id:nanoid(),
+            id :data.params.id?data.params.id:nanoid(),
             name:data.body.name,
             username: data.body.username,
         }
 
-        if(data.password || data.username){
+        if(data.body.password || data.body.username){
             await auth.upsert({
                 id: user.id,
                 username: user.username,

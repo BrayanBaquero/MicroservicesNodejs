@@ -1,5 +1,5 @@
 CREATE TABLE user(
-  id        VARCHAR(32),
+  id        VARCHAR(32) unique key,
   username  VARCHAR(32),
   `name`      VARCHAR(64)
 );

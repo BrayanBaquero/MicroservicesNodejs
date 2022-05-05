@@ -10,8 +10,9 @@ const httpStatus = require("http-status-codes").StatusCodes;
 
 router.get('/:table',list);
 router.get('/:table/:id',get);
-router.post('/:table',insert);
+router.post('/:table',upsert);
 router.put('/:table',upsert);
+router.post('/:table/query', query);
 
 async function list(req,res,next) {
     const datos=await  Store.list(req.params.table);
@@ -19,12 +20,12 @@ async function list(req,res,next) {
 }
 
 async function get(req,res,next) {
-    const datos=await  Store.get(req.params.table,req.param.id);
+    const datos=await  Store.get(req.params.table,req.params.id);
     response.success(req,res,datos,200);
 }
 
 async function insert(req,res,next) {
-    const datos=await  Store.insert(req.params.table,req.body);
+    const datos=await  Store.upsert(req.params.table,req.body);
     response.success(req,res,datos,200);
 }
 
@@ -32,6 +33,9 @@ async function upsert(req,res,next) {
     const datos=await  Store.upsert(req.params.table,req.body);
     response.success(req,res,datos,200);
 }
-
+async function query(req, res, next) {
+    const datos = await Store.query(req.params.table, req.body.query, req.body.join)
+    response.success(req, res, datos, 200);
+}
 
 module.exports=router;

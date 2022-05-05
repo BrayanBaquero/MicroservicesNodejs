@@ -75,6 +75,8 @@ function insert(table,data) {
 }*/
 
 const upsert = async (table, payload) => new Promise((resolve, reject) => {
+    let query=`INSERT INTO ${table} SET ${payload} ON DUPLICATE KEY UPDATE ${payload}`;
+    console.log(query);
     connection.query(`INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ?`, [payload, payload], (error, data) => {
       console.log('UPDATE DATA: ', data)
       if (error) {
