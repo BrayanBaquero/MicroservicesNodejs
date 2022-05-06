@@ -12,6 +12,11 @@ module.exports = {
     name:'api-post',
     script: './posts/index.js',
     watch: '.'
+  },
+  {
+    name:'api-redis',
+    script: './cache/index-cache.js',
+    watch: '.'
   }],
 
   deploy : {
