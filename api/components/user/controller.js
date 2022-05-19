@@ -5,18 +5,38 @@ const TABLA='user'
 
 
 
-module.exports=function(injectedStore){
+module.exports=function(injectedStore, injectedCache){
+    let cache=injectedCache;
     let store=injectedStore;
     if(!store){
         store=require('../../../store/dummy');
     }
-
-    function list() {
-        return store.list(TABLA);
+    if(!cache){
+        cache=require('../../../store/dummy');
     }
 
-    function get(id) {
-        return store.get(TABLA,id);
+    async function list() {
+        let users=await cache.list(TABLA);
+        if(!users){
+            console.log('No estaba en cache. Buscando en DB');
+            users=await store.list(TABLA);
+            cache.upsert(TABLA,users);
+        }else{
+            console.log('Obteniendo datos de cache');
+        }
+        return users;
+    }
+
+    async function get(id) {
+        let user=await cache.get(TABLA,id);
+        if(!user){
+            console.log('No estaba en cache. Buscando en DB');
+            user=await store.get(TABLA,id);
+            cache.upsert(TABLA,user);
+        }else{
+            console.log('Obteniendo datos de cache');
+        }
+        return user;
     }
 
     async function upsert(data) {

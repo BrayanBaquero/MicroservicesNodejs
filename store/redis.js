@@ -21,7 +21,8 @@ async function list(table) {
 }
 
 async function get(table,id) {
-    const value = await client.get(`${table}_${id}`);
+    console.log(`${table}_${id}`);
+    const value = await client.get(table+'_'+id);
     return JSON.parse(value);
 }
 
